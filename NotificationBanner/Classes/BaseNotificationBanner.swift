@@ -25,6 +25,8 @@ import SnapKit
     import MarqueeLabel
 #endif
 
+fileprivate let sizeDidChangeNotification = NSNotification.Name(rawValue: "UINotificationSizeDidChange")
+
 public protocol NotificationBannerDelegate: class {
     func notificationBannerWillAppear(_ banner: BaseNotificationBanner)
     func notificationBannerDidAppear(_ banner: BaseNotificationBanner)
@@ -162,7 +164,7 @@ public class BaseNotificationBanner: UIView {
     
     deinit {
         NotificationCenter.default.removeObserver(self,
-                                                  name: NSNotification.Name.UIDeviceOrientationDidChange,
+                                                  name: sizeDidChangeNotification,
                                                   object: nil)
     }
     
@@ -292,11 +294,11 @@ public class BaseNotificationBanner: UIView {
         }
         
         NotificationCenter.default.removeObserver(self,
-                                                  name: NSNotification.Name.UIDeviceOrientationDidChange,
+                                                  name: sizeDidChangeNotification,
                                                   object: nil)
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(onOrientationChanged),
-                                               name: NSNotification.Name.UIDeviceOrientationDidChange,
+                                               selector: #selector(onSizeChanged),
+                                               name: sizeDidChangeNotification,
                                                object: nil)
         
         if placeOnQueue {
@@ -367,6 +369,11 @@ public class BaseNotificationBanner: UIView {
             isSuspended = false
             isDisplaying = true
         }
+    }
+    
+    @objc
+    func onSizeChanged() {
+        onOrientationChanged()
     }
     
     /**
@@ -453,5 +460,12 @@ public class BaseNotificationBanner: UIView {
     */
     internal func updateMarqueeLabelsDurations() {
         titleLabel?.speed = .duration(CGFloat(duration - 3))
+    }
+}
+
+fileprivate extension UIWindow {
+    override open func layoutSubviews() {
+        super.layoutSubviews()
+        NotificationCenter.default.post(name: sizeDidChangeNotification, object: nil)
     }
 }
