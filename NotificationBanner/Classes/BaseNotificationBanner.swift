@@ -34,7 +34,7 @@ public protocol NotificationBannerDelegate: class {
 
 public class BaseNotificationBanner: UIView {
     
-    static let sizeDidChangeNotification = NSNotification.Name(rawValue: "UINotificationSizeDidChange")
+    public static let sizeDidChangeNotification = NSNotification.Name(rawValue: "UINotificationSizeDidChange")
     
     /// The delegate of the notification banner
     public weak var delegate: NotificationBannerDelegate?
