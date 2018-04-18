@@ -164,7 +164,7 @@ public class BaseNotificationBanner: UIView {
     
     deinit {
         NotificationCenter.default.removeObserver(self,
-                                                  name: sizeDidChangeNotification,
+                                                  name: BaseNotificationBanner.sizeDidChangeNotification,
                                                   object: nil)
     }
     
@@ -294,11 +294,11 @@ public class BaseNotificationBanner: UIView {
         }
         
         NotificationCenter.default.removeObserver(self,
-                                                  name: sizeDidChangeNotification,
+                                                  name: BaseNotificationBanner.sizeDidChangeNotification,
                                                   object: nil)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(onSizeChanged),
-                                               name: sizeDidChangeNotification,
+                                               name: BaseNotificationBanner.sizeDidChangeNotification,
                                                object: nil)
         
         if placeOnQueue {
@@ -466,6 +466,6 @@ public class BaseNotificationBanner: UIView {
 fileprivate extension UIWindow {
     override open func layoutSubviews() {
         super.layoutSubviews()
-        NotificationCenter.default.post(name: sizeDidChangeNotification, object: nil)
+        NotificationCenter.default.post(name: BaseNotificationBanner.sizeDidChangeNotification, object: nil)
     }
 }
