@@ -25,7 +25,7 @@ import SnapKit
     import MarqueeLabel
 #endif
 
-fileprivate let sizeDidChangeNotification = NSNotification.Name(rawValue: "UINotificationSizeDidChange")
+public let sizeDidChangeNotification = NSNotification.Name(rawValue: "UINotificationSizeDidChange")
 
 public protocol NotificationBannerDelegate: class {
     func notificationBannerWillAppear(_ banner: BaseNotificationBanner)
